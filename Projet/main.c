@@ -3,15 +3,17 @@
 #include <time.h>
 #include <graph.h>
 #include <unistd.h>
-#define  CYCLE 1000000L
+#include "main.h"
+#include "menu.h"
+
 //#include <conio.h>
 
-const int largeur = 60;
-const int hauteur = 40;
+// const int largeur = 60;
+// const int hauteur = 40;
 int x, y, fruitx, fruity, score, echec = 0;
 int taillex[100], tailley[100], taille;
-enum Direction{ PAUSE = 0, Gauche, Droite, Haut, Bas};
-enum Direction dir;
+// enum Direction{ PAUSE = 0, Gauche, Droite, Haut, Bas};
+// enum Direction dir;
 
 int Damier(){
 	int i, j;
@@ -242,10 +244,11 @@ int main(int argc, char const *argv[])
 	char temps[10];
 	InitialiserGraphique();
 	CreerFenetre(10,10,largeur*20, hauteur*20+100);
+	menu();
 	Position();
 	while (!echec){
 		Carte();
-		Entree();
+		Entree(); 
 		SnakeAvance();
 		usleep(100000); //usleep(10)
 		if (Microsecondes() > suivant)
