@@ -2,9 +2,10 @@
 #include<stdio.h>
 #include<graph.h>
 #include <unistd.h>
+#include "menu.h"
 
  
-int main()
+void menu()
 {
     InitialiserGraphique();
     CreerFenetre(0,0,1200,900);
@@ -37,11 +38,11 @@ int main()
     			ChoisirCouleurDessin(CouleurParComposante(0,0,0));
     			EcrireTexte(525,450,"Au revoir...",2);
     			sleep(2);
-                exit(1);
+                //exit(1);
     	   }
 	   }
     }
-    Touche();
-    FermerGraphique();
-    return EXIT_SUCCESS;
+    // Touche();
+    // FermerGraphique();
+    //return EXIT_SUCCESS;
 }
