@@ -22,27 +22,27 @@ void menu()
     	{
     		if((_X >= 408) && (_X <= 830) && (_Y >= 289) && (_Y <= 435))/*Zone Cliquable pour jouer*/
             {
-    			//printf("Jouer\n");
+    			/*printf("Jouer\n");*/
     			
     		}
             if ((_X >= 408) && (_X <= 825) && (_Y >= 535) && (_Y <= 670))/*Zone Cliquable pour l'aide*/
             {
-                //printf("Aide\n");
+                /*printf("Aide\n");*/
                 
             }
     		if((_X >= 424) && (_X <= 804) && (_Y >= 750) && (_Y <= 880))/*Zone Cliquable pour quitter*/
             {
-    			//printf("Quitter\n");
+    			/*printf("Quitter\n");
     			ChoisirCurseur(50);
     			EffacerEcran(CouleurParComposante(255,255,255));
     			ChoisirCouleurDessin(CouleurParComposante(0,0,0));
     			EcrireTexte(525,450,"Au revoir...",2);
     			sleep(2);
-                //exit(1);
+                exit(1);*/
     	   }
 	   }
     }
-    // Touche();
-    // FermerGraphique();
-    //return EXIT_SUCCESS;
+    /* Touche();
+     FermerGraphique();
+    return EXIT_SUCCESS;*/
 }

@@ -2,4 +2,4 @@
 #define MENU_H_INCLUDED 
 
 void menu();
-#endif//MENU_H_INCLUDED
+#endif /*MENU_H_INCLUDED*/

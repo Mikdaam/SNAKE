@@ -7,4 +7,4 @@
 	enum Direction{ PAUSE = 0, Gauche, Droite, Haut, Bas};
 	enum Direction dir;
 
-#endif //MAIN_H_INCLUDED
+#endif /*MAIN_H_INCLUDED*/

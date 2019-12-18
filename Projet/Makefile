@@ -1,35 +1,36 @@
 #############################################
-				VARIABLES
+#				VARIABLES                   #
 #############################################
 
 CC = gcc
 CFLAGS = -W -Wall -ansi -pedantic -lgraph
-EXEC = run
+EXEC = snake
 OFILES = menu.o main.o
 all: $(EXEC)
 
 
 #############################################
-			REGLES ESSENTIELLES
+#			REGLES ESSENTIELLES             #
 #############################################
+run: all
+	./snake
 
-run: $(OFILES)
-		$(CC) -o run menu.o main.o -lgraph
+snake: $(OFILES)
+	$(CC) -o snake menu.o main.o -lgraph
 
 menu.o: menu.c menu.h
-		$(CC) -o menu.o -c menu.c $(CFLAGS) 
+	$(CC) -o menu.o -c menu.c $(CFLAGS) 
 
 main.o: main.c main.h menu.h
-		$(CC) -o main.o -c main.c $(CFLAGS) 
+	$(CC) -o main.o -c main.c $(CFLAGS) 
 
-.PHONY: clean mrproper
+.PHONY: clean mrproper run all
 
 clean:
-		rm -rf *.o
+	rm -rf *.o
 
-mrproper: clean
-		rm -rf $(EXEC)
+mrproper: clean all 
 
 #############################################
-					FIN
+#					FIN                     #
 #############################################
