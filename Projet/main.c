@@ -6,19 +6,6 @@
 #include "main.h"
 #include "menu.h"
 
-/*#include <conio.h>*
-
-// const int largeur = 60;
-// const int hauteur = 40;
- int x, y, fruitx, fruity, score, echec = 0;
- int taillex[100], tailley[100], taille;
-// enum Direction{ PAUSE = 0, Gauche, Droite, Haut, Bas};
-// enum Direction dir;
-
-int Damier(){
-	int i, j;
-}
-*/
 void Position(int* x, int* y, int* fruitx, int* fruity, int* echec, int* score){
 	*echec = 0;
 	dir = PAUSE;
@@ -34,9 +21,9 @@ void Carte(int* x, int* y, int* fruitx, int* fruity, int* score, int taillex[], 
 	int i, j, k, n;
 	char s[50];
 	system("clear");
-	for( i = 0; i < largeur+2; i++){/*Bordure haut du terrain*/
+	/*for( i = 0; i < largeur+2; i++){/*Bordure haut du terrain*/
 		printf("#");
-	}
+	/*}*/
 	printf("\n");
 	/*EffacerEcran(CouleurParComposante(0,255,0));*/
 
@@ -69,8 +56,7 @@ void Carte(int* x, int* y, int* fruitx, int* fruity, int* score, int taillex[], 
 				n = ChargerSprite("Images/pommevert.jpg");
 				AfficherSprite(n, j*20, i*20);
 				LibererSprite(n);
-				/*ChoisirCouleurDessin(CouleurParComposante(255,0,0));
-				RemplirRectangle(j*20,i*20,20,20);*/
+				
 			}
 			else
 			{
@@ -81,9 +67,9 @@ void Carte(int* x, int* y, int* fruitx, int* fruity, int* score, int taillex[], 
 					{
 						printf("o");/*Affichage de la queue du serpent au fur et à mesure qu'il évolu*/
 						ChoisirCouleurDessin(CouleurParComposante(0,0,0));
-						DessinerRectangle(j*20,i*20,20,20);
+						RemplirRectangle(j*20,i*20,20,20);
 						ChoisirCouleurDessin(CouleurParComposante(255,255,0));
-						RemplirRectangle(j*20,i*20,18,18);
+						RemplirRectangle(j*20,i*20,17,17);
 						queue = 1;
 					}
 				}
@@ -206,6 +192,11 @@ void SnakeAvance(int* x, int* y, int* fruitx, int* fruity, int* echec, int* scor
 		{
 			*echec = 1;
 		}
+		if (taillex[i] == *fruitx && tailley[i] == *fruity)
+		{
+			*fruitx = rand() % largeur;
+			*fruity = rand() % hauteur;
+		}
 	}
 	if (*x == *fruitx && *y == *fruity)
 	{
@@ -217,30 +208,12 @@ void SnakeAvance(int* x, int* y, int* fruitx, int* fruity, int* echec, int* scor
 	if(*echec)
 	{
 		EffacerEcran(CouleurParComposante(15,15,15));
-		EcrireTexte(490,hauteur/2*20,"Vous avez perdu...!", 2);
-		sprintf(perdu,"Votre score est %d", *score);
-		EcrireTexte(490,(hauteur/2)*20+50,perdu,2);
+		EcrireTexte(410,hauteur/2*20,"Vous avez perdu...!", 2);
+		sprintf(perdu,"Votre score est: %d", *score);
+		EcrireTexte(20,(hauteur/2)*20+50,perdu,2);
+		EcrireTexte(800,(hauteur/2)*20+50,"Duree de Jeu: ",2);
 		EcrireTexte(480,870,"Appuyer sur Echappe.",2);
 	}
-}
-
-int main(void)
-{
-	int x, y, fruitx, fruity, score, echec = 0;
- 	int taillex[100], tailley[100], taille;
-	/*int echec = 0;
-	int secondes = 0, minutes = 0, testsecondes, q = secondes, nextheure;
-	long unsigned int suivant = Microsecondes() + CYCLE;
-	char temps[10];*/
-	InitialiserGraphique();
-	CreerFenetre(10,10,largeur*20, hauteur*20+100);
-	/*menu();*/
-	Position(&x, &y, &fruitx, &fruity, &echec, &score);
-	while (!echec){
-		Carte(&x, &y, &fruitx, &fruity, &score, taillex, tailley, &taille);
-		Entree(); 
-		SnakeAvance(&x, &y, &fruitx, &fruity, &echec, &score, taillex, tailley, &taille);
-		usleep(100000); /*usleep(10)*/
 		/*if (Microsecondes() > suivant)
 		{
 			ChoisirCouleurDessin(CouleurParComposante(255,255,255));
@@ -258,7 +231,44 @@ int main(void)
 		
 		printf("Temps : %s\n", temps);
 		}*/
+}
+
+int main(void)
+{
+	int choix;
+	int x, y, fruitx, fruity, score, echec = 0, vitesse = 100000;
+ 	int taillex[2060], tailley[2060], taille;
+	InitialiserGraphique();
+	CreerFenetre(50,10,largeur*20, hauteur*20+100);
+	choix = menu();
+	if (choix == 1)
+	{
+			Position(&x, &y, &fruitx, &fruity, &echec, &score);
+			while (!echec){
+			Carte(&x, &y, &fruitx, &fruity, &score, taillex, tailley, &taille);
+			Entree(); 
+			SnakeAvance(&x, &y, &fruitx, &fruity, &echec, &score, taillex, tailley, &taille);
+			usleep(vitesse); /*usleep(10)*/
+			if (score > 50)
+			{
+				vitesse = 99999;
+			}
+			if (score > 100)
+			{
+				vitesse = 9999;
+			}
+		}
 	}
+	if (choix == 2)
+	{
+		EffacerEcran(CouleurParComposante(255,255,255));
+		EcrireTexte(50,50,"Regles du jeu",2);
+	}
+	if (choix == 3)
+	{
+		exit(1);
+	}
+	
 	Touche();
 	FermerGraphique();
 	return EXIT_SUCCESS;

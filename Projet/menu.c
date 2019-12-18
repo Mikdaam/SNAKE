@@ -5,8 +5,9 @@
 #include "menu.h"
 
  
-void menu()
+int menu()
 {
+    int CHOIX;
     InitialiserGraphique();
     CreerFenetre(0,0,1200,900);
     ChargerImageFond("Images/Menu.jpg");/*Affiche le fond d'écran*/
@@ -22,13 +23,15 @@ void menu()
     	{
     		if((_X >= 408) && (_X <= 830) && (_Y >= 289) && (_Y <= 435))/*Zone Cliquable pour jouer*/
             {
+                CHOIX = 1;
     			/*printf("Jouer\n");*/
-    			
+    			return CHOIX;
     		}
             if ((_X >= 408) && (_X <= 825) && (_Y >= 535) && (_Y <= 670))/*Zone Cliquable pour l'aide*/
             {
+                CHOIX = 2;
                 /*printf("Aide\n");*/
-                
+                return CHOIX;
             }
     		if((_X >= 424) && (_X <= 804) && (_Y >= 750) && (_Y <= 880))/*Zone Cliquable pour quitter*/
             {
@@ -37,12 +40,12 @@ void menu()
     			EffacerEcran(CouleurParComposante(255,255,255));
     			ChoisirCouleurDessin(CouleurParComposante(0,0,0));
     			EcrireTexte(525,450,"Au revoir...",2);
-    			sleep(2);
-                exit(1);*/
+    			sleep(2);*/
+                exit(1);
     	   }
 	   }
     }
     /* Touche();
-     FermerGraphique();
-    return EXIT_SUCCESS;*/
+     FermerGraphique();*/
+    return CHOIX;
 }
