@@ -30,6 +30,10 @@ int menu()
             if ((_X >= 408) && (_X <= 825) && (_Y >= 535) && (_Y <= 670))/*Zone Cliquable pour l'aide*/
             {
                 CHOIX = 2;
+                if ((_X >= 940) && (_X <= 1160) && (_Y >= 801) && (_Y <= 870))
+                {
+                    CHOIX = 5;
+                }
                 /*printf("Aide\n");*/
                 return CHOIX;
             }
@@ -42,7 +46,13 @@ int menu()
     			EcrireTexte(525,450,"Au revoir...",2);
     			sleep(2);*/
                 exit(1);
+
     	   }
+
+           if ((_X >= 940) && (_X <= 1160) && (_Y >= 801) && (_Y <= 870))
+           {
+               CHOIX = 4;
+           }
 	   }
     }
     /* Touche();
