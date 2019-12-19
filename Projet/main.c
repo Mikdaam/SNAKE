@@ -6,19 +6,23 @@
 #include "main.h"
 #include "menu.h"
 
-void Position(int* x, int* y, int* fruitx, int* fruity, int* echec, int* score){
+void Position(int* x, int* y, int fruitx[], int fruity[], int* echec, int* score){
+	int i;
 	*echec = 0;
 	dir = PAUSE;
 	srand(time(NULL));
 	*x = largeur/2;/*Position du serpent au commencement*/
 	*y = hauteur/2;
-	*fruitx = rand() % largeur;/*Position des fruits au commencement*/
-	*fruity = rand() % hauteur;
+	for (i = 0; i < 5; ++i)
+	{
+		fruitx[i] = rand() % largeur;/*Position des fruits au commencement*/
+		fruity[i] = rand() % hauteur;
+	}
 	*score = 0;
 }
 
-void Carte(int* x, int* y, int* fruitx, int* fruity, int* score, int taillex[], int tailley[], int* taille){
-	int i, j, k, n;
+void Carte(int* x, int* y, int fruitx[], int fruity[], int* score, int taillex[], int tailley[], int* taille){
+	int i, j, k, n, m;
 	char s[50];
 	system("clear");
 	/*for( i = 0; i < largeur+2; i++){/*Bordure haut du terrain*/
@@ -50,14 +54,13 @@ void Carte(int* x, int* y, int* fruitx, int* fruity, int* score, int taillex[], 
 				ChoisirCouleurDessin(CouleurParComposante(0,0,255));
 				RemplirRectangle(j*20,i*20,20,20);
 			}
-			else if (j == *fruitx && i == *fruity)
+			/*else if (j == *fruitx && i == *fruity)
 			{
-				printf("*");/*Affichage des fruits au début du jeu*/
+				printf("*");/*Affichage des fruits au début du jeu*
 				n = ChargerSprite("Images/pommevert.jpg");
 				AfficherSprite(n, j*20, i*20);
 				LibererSprite(n);
-				
-			}
+			}*/
 			else
 			{
 				int queue = 0;
@@ -78,16 +81,39 @@ void Carte(int* x, int* y, int* fruitx, int* fruity, int* score, int taillex[], 
 						printf(" ");
 					}
 			}
+			for (m = 0; m < 5; m++)
+			{
+				if (j == fruitx[m] && i == fruity[m])
+				{
+					printf("*");/*Affichage des fruits au début du jeu*/
+					n = ChargerSprite("Images/pommevert.jpg");
+					AfficherSprite(n, j*20, i*20);
+					LibererSprite(n);
+				}
+			}
 			if (j == largeur -1 )
 			{
 				printf("#");
 			}
-
-			
-
 		}
 		printf("\n");
 	}
+	/*for (i = 0; i < hauteur ; i++)
+	{
+		for (j = 0; j < largeur; j++)
+		{
+			for (m = 0; m < 5; m++)
+			{
+				if (j == fruitx[m] && i == fruity[m])
+				{
+					printf("*");/*Affichage des fruits au début du jeu*
+					n = ChargerSprite("Images/pommevert.jpg");
+					AfficherSprite(n, j*20, i*20);
+					LibererSprite(n);
+				}
+			}
+		}
+	}*/
 
 	for(i = 0; i < largeur+2; i++){
 		printf("#");
@@ -131,10 +157,10 @@ void Entree()
 	}
 }
 
-void SnakeAvance(int* x, int* y, int* fruitx, int* fruity, int* echec, int* score, int taillex[500], int tailley[500], int* taille)
+void SnakeAvance(int* x, int* y, int fruitx[], int fruity[], int* echec, int* score, int taillex[], int tailley[], int* taille)
 {
 	char perdu[100];
-	int i;
+	int i, j;
 	int prevx = taillex[0];
 	int prevy = tailley[0];
 	int prev2x, prev2y;
@@ -192,77 +218,117 @@ void SnakeAvance(int* x, int* y, int* fruitx, int* fruity, int* echec, int* scor
 		{
 			*echec = 1;
 		}
-		if (taillex[i] == *fruitx && tailley[i] == *fruity)
+		for (j = 0; j < 5; j++)
 		{
-			*fruitx = rand() % largeur;
-			*fruity = rand() % hauteur;
+			if (taillex[i] == fruitx[j] && tailley[i] == fruity[j])
+			{
+				fruitx[j] = rand() % largeur;
+				fruity[j] = rand() % hauteur;
+			}
+		}
+		
+	}
+	for ( i = 0; i < 5; i++)
+	{
+		if (*x == fruitx[i] && *y == fruity[i])
+		{
+			*score += 5;
+			fruitx[i] = rand() % largeur;
+			fruity[i] = rand() % hauteur;
+			(*taille)++;
 		}
 	}
-	if (*x == *fruitx && *y == *fruity)
-	{
-		*score += 5;
-		*fruitx = rand() % largeur;
-		*fruity = rand() % hauteur;
-		(*taille)++;
-	}
+	
 	if(*echec)
 	{
 		EffacerEcran(CouleurParComposante(15,15,15));
-		EcrireTexte(410,hauteur/2*20,"Vous avez perdu...!", 2);
+		EcrireTexte(480,hauteur/2*20-50,"Vous avez perdu...!", 2);
 		sprintf(perdu,"Votre score est: %d", *score);
 		EcrireTexte(20,(hauteur/2)*20+50,perdu,2);
-		EcrireTexte(800,(hauteur/2)*20+50,"Duree de Jeu: ",2);
-		EcrireTexte(480,870,"Appuyer sur Echappe.",2);
+		EcrireTexte(480,870,"Appuyer sur Echap.",2);
 	}
-		/*if (Microsecondes() > suivant)
+	/*for(t = 1;t;)
+	{
+		if (Microsecondes() > suivant)
 		{
+			suivant = Microsecondes() + CYCLE;
+			secondes++;
 			ChoisirCouleurDessin(CouleurParComposante(255,255,255));
 			sprintf(temps, "%02d:%02d", minutes, secondes);
-			EcrireTexte(500,870,temps,2);
-			secondes++;
+			EcrireTexte(900,870,temps,2);
+		}
+		testsecondes = secondes;
+		if (secondes == 60)
+		{
+			secondes = 0;
+			minutes++;
+		}
+		printf("Temps : %s\n", temps);
+	}*/
+}
+
+int main(void)
+{
+	int secondes = 0, minutes = 0, testsecondes;
+	unsigned long int suivant = Microsecondes() + CYCLE;
+	char temps[50];
+	int choix;
+	int x, y, fruitx[5], fruity[5], score, echec = 0, vitesse = 100000;
+ 	int taillex[2060], tailley[2060], taille;
+	InitialiserGraphique();
+	CreerFenetre(50,10,largeur*20, hauteur*20+100);
+	ChoisirTitreFenetre("Jeu Snake");
+	ChoisirCurseur(2);
+	choix = menu();
+	if (choix == 1)
+	{
+		Position(&x, &y, fruitx, fruity, &echec, &score);
+		while (!echec)
+		{
+			Carte(&x, &y, fruitx, fruity, &score, taillex, tailley, &taille);
+			Entree(); 
+			SnakeAvance(&x, &y, fruitx, fruity, &echec, &score, taillex, tailley, &taille);
+			usleep(vitesse); /*usleep(10)*/
+			if (score >= 50)
+			{
+				vitesse = 99999;
+			}
+			if (score >= 100)
+			{
+				vitesse = 50000;
+			}
+			if (score >= 150)
+			{
+				vitesse = 25000;
+			}
+			if (score >= 200)
+			{
+				vitesse = 1000;
+			}
+			if (Microsecondes() > suivant)
+			{
+				suivant = Microsecondes() + CYCLE;
+				secondes++;
+				ChoisirCouleurDessin(CouleurParComposante(255,255,255));
+				sprintf(temps, "%02d:%02d", minutes, secondes);
+				EcrireTexte(1000,870,temps,2);/*Affichage de temps*/
+			}
+			testsecondes = secondes;
 			if (secondes == 60)
 			{
 				secondes = 0;
 				minutes++;
 			}
-			suivant = Microsecondes() + CYCLE;
+			printf("Temps : %s\n", temps);
 		}
-		testsecondes = secondes;
-		
-		printf("Temps : %s\n", temps);
-		}*/
-}
-
-int main(void)
-{
-	int choix;
-	int x, y, fruitx, fruity, score, echec = 0, vitesse = 100000;
- 	int taillex[2060], tailley[2060], taille;
-	InitialiserGraphique();
-	CreerFenetre(50,10,largeur*20, hauteur*20+100);
-	choix = menu();
-	if (choix == 1)
-	{
-			Position(&x, &y, &fruitx, &fruity, &echec, &score);
-			while (!echec){
-			Carte(&x, &y, &fruitx, &fruity, &score, taillex, tailley, &taille);
-			Entree(); 
-			SnakeAvance(&x, &y, &fruitx, &fruity, &echec, &score, taillex, tailley, &taille);
-			usleep(vitesse); /*usleep(10)*/
-			if (score > 50)
-			{
-				vitesse = 99999;
-			}
-			if (score > 100)
-			{
-				vitesse = 9999;
-			}
-		}
+		EcrireTexte(900,(hauteur/2)*20+50,"Duree de Jeu: ",2);
+		EcrireTexte(1100,(hauteur/2)*20+50,temps,2);
+		ChoisirCouleurDessin(CouleurParComposante(15,15,15));
+		RemplirRectangle(910,830,80,40);
 	}
 	if (choix == 2)
 	{
-		EffacerEcran(CouleurParComposante(255,255,255));
-		EcrireTexte(50,50,"Regles du jeu",2);
+		ChargerImageFond("Images/FondRegles.jpg");
 	}
 	if (choix == 3)
 	{
