@@ -10,7 +10,7 @@ int menu()
     int CHOIX;
     InitialiserGraphique();
     CreerFenetre(0,0,1200,900);
-    ChargerImageFond("Images/Menu.jpg");/*Affiche le fond d'écran*/
+    ChargerImageFond("Images/MenuBlanc.jpg");/*Affiche le fond d'écran*/
     ChoisirCouleurDessin(CouleurParComposante(255,255,255));
     ChoisirCouleurDessin(CouleurParComposante(0,0,0));
     RemplirRectangle(0,0,20,900);
@@ -21,23 +21,19 @@ int menu()
     {
     	while(!SourisCliquee())
     	{
-    		if((_X >= 408) && (_X <= 830) && (_Y >= 289) && (_Y <= 435))/*Zone Cliquable pour jouer*/
+    		if((_X >= 473) && (_X <= 723) && (_Y >= 332) && (_Y <= 396))/*Zone Cliquable pour jouer*/
             {
                 CHOIX = 1;
     			/*printf("Jouer\n");*/
     			return CHOIX;
     		}
-            if ((_X >= 408) && (_X <= 825) && (_Y >= 535) && (_Y <= 670))/*Zone Cliquable pour l'aide*/
+            if ((_X >= 444) && (_X <= 749) && (_Y >= 459) && (_Y <= 531))/*Zone Cliquable pour l'aide*/
             {
                 CHOIX = 2;
-                if ((_X >= 940) && (_X <= 1160) && (_Y >= 801) && (_Y <= 870))
-                {
-                    CHOIX = 5;
-                }
                 /*printf("Aide\n");*/
                 return CHOIX;
             }
-    		if((_X >= 424) && (_X <= 804) && (_Y >= 750) && (_Y <= 880))/*Zone Cliquable pour quitter*/
+    		if((_X >= 419) && (_X <= 762) && (_Y >= 594) && (_Y <= 670))/*Zone Cliquable pour quitter*/
             {
     			/*printf("Quitter\n");
     			ChoisirCurseur(50);
@@ -52,10 +48,11 @@ int menu()
            if ((_X >= 940) && (_X <= 1160) && (_Y >= 801) && (_Y <= 870))
            {
                CHOIX = 4;
+               return CHOIX;
            }
 	   }
     }
     /* Touche();
      FermerGraphique();*/
-    return CHOIX;
+    /*return CHOIX;*/
 }

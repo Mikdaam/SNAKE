@@ -22,7 +22,7 @@ void Position(int* x, int* y, int fruitx[], int fruity[], int* echec, int* score
 }
 
 void Carte(int* x, int* y, int fruitx[], int fruity[], int* score, int taillex[], int tailley[], int* taille){
-	int i, j, k, n, m;
+	int i, j, k, n, m, c;
 	char s[50];
 	system("clear");
 	for( i = 0; i < largeur+2; i++){/*Bordure haut du terrain*/
@@ -60,10 +60,13 @@ void Carte(int* x, int* y, int fruitx[], int fruity[], int* score, int taillex[]
 					if (taillex[k] == j && tailley[k] == i)
 					{
 						printf("o");/*Affichage de la queue du serpent au fur et à mesure qu'il évolu*/
-						ChoisirCouleurDessin(CouleurParComposante(0,0,0));
+						c = ChargerSprite("Images/corps.png");
+						AfficherSprite(c, j*20, i*20);
+						LibererSprite(c);
+						/*ChoisirCouleurDessin(CouleurParComposante(0,0,0));
 						RemplirRectangle(j*20,i*20,20,20);
 						ChoisirCouleurDessin(CouleurParComposante(255,255,0));
-						RemplirRectangle(j*20,i*20,17,17);
+						RemplirRectangle(j*20,i*20,17,17);*/
 						queue = 1;
 					}
 				}
@@ -298,10 +301,10 @@ int main(void)
 	if (choix == 2)
 	{
 		ChargerImageFond("Images/FondRegles.jpg");
-		if ((_X >= 940) && (_X <= 1160) && (_Y >= 801) && (_Y <= 870))
-        {
-            choix = menu();
-        }
+		while(choix == 4)
+		{
+			exit(1);
+		}
 	}
 	if (choix == 3)
 	{
